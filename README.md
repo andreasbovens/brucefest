@@ -47,3 +47,7 @@ Events (bubbling, composed): `bruce:rant`, `bruce:change`, `bruce:hoedown`, `bru
 ## Install it
 
 The demo page is a progressive web app: install it from the address bar in Chrome or Edge, with File › Add to Dock in Safari on a Mac, or with Share › Add to Home Screen on iOS. It works offline once loaded. After changing any file, bump `VERSION` in `sw.js`.
+
+## Licence
+
+The code is MIT licensed. The photos, backgrounds, audio and icons in `assets/` are not: they belong to their owners and are only here for this non-commercial parody. See [LICENSE](LICENSE) for the details, and open an issue if you own one of them and want it removed.

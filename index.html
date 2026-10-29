@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>&lt;bruce-lawson&gt;</title>
+<meta name="description" content="Sixty is 0x3C in hex, and 0x3C is ASCII for &lt;. So at 60, Bruce finally gets an element of his own.">
+<meta name="theme-color" content="#c81d6e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/icons/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<script type="module" src="demo.js"></script>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="glyph" aria-hidden="true">&lt;</div>
+    <div>
+      <h1>Bruce turns &lt;</h1>
+      <p class="lede">Sixty is 0x3C in hex, and 0x3C is ASCII for &lt;. So at 60, Bruce finally gets an element of his own. Introducing <code>&lt;bruce-lawson&gt;</code></p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <div>
+      <div class="paper stage" id="stage">
+        <bruce-lawson id="star" head="auto" top="random" legs="random" props="random" rant="random" glamorous>
+          <p class="nojs">Bruce approves of your decision to turn off JavaScript.</p>
+        </bruce-lawson>
+        <p class="caption" id="caption" aria-hidden="true"></p>
+        <button type="button" class="stage-grip" id="stageGrip" aria-label="Resize the stage. Arrow keys resize, Alt and the arrow keys move it, Home resets." title="Drag to resize. Double-click to reset."></button>
+      </div>
+      <pre class="markup" id="markup" aria-label="Current markup"></pre>
+    </div>
+
+    <div class="controls" id="controls">
+      <div class="field looks" role="group" aria-labelledby="looks-label">
+        <span class="legend" id="looks-label">Looks</span>
+        <div class="buttons" id="looks"><button type="button" class="btn" id="randomBtn">Randomise</button></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="head">Head</label><select id="head"></select></div>
+        <div class="field"><label for="background">Background</label><select id="background"></select></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="top">Top</label><select id="top"></select></div>
+        <div class="field"><label for="legs">Legs</label><select id="legs"></select></div>
+      </div>
+      <div class="field"><label for="rant">Rant topic</label><select id="rant"></select></div>
+      <fieldset class="toggles props" id="props">
+        <legend class="legend">Props <span class="legend-note">(one item per hand, newest wins)</span></legend>
+      </fieldset>
+      <fieldset class="toggles props">
+        <legend class="legend">Switches</legend>
+        <label><input type="checkbox" id="hoedown"> hoedown</label>
+        <label><input type="checkbox" id="glamorous" checked> glamorous</label>
+        <label><input type="checkbox" id="ai"> ai</label>
+        <label><input type="checkbox" id="reduced-motion"> reduced-motion</label>
+      </fieldset>
+      <div class="buttons">
+        <button type="button" class="btn primary" id="rantBtn">Rant</button>
+        <button type="button" class="btn" id="shhBtn" title="Stop talking (or press Escape, or click his speech bubble)">Shh</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="two">
+    <div>
+      <h2>Event log</h2>
+      <p>Bruce fires <code>bruce:rant</code>, <code>bruce:change</code>, <code>bruce:hoedown</code> and <code>bruce:offended</code>. They bubble out of the shadow DOM, like his opinions.</p>
+      <ul class="log" id="log"><li class="empty">Nothing yet. Press Bruce.</li></ul>
+    </div>
+    <div>
+      <h2>Attributes</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>head</code></td><td><code>auto</code>, <code>happy1</code>, <code>happy2</code>, <code>cheeky</code>, <code>quizzical</code>, <code>talk</code>, <code>orly</code>, <code>glare</code>, <code>jaded</code>, <code>visionary</code>, <code>innocent</code>, <code>sceptical</code>, <code>smirk</code>, <code>viking</code></td><td><code>auto</code> picks a face to suit his mood, and swaps it while he rants.</td></tr>
+            <tr><td><code>top</code></td><td><code>compliant-tee</code>, <code>blazer</code>, <code>circles</code>, <code>pin-jacket</code>, <code>chaos</code>, <code>opera-tee</code>, <code>cowboy</code>, <code>pink-blazer</code>, <code>kitten-tee</code>, <code>random</code></td><td>What he’s wearing on top.</td></tr>
+            <tr><td><code>legs</code></td><td><code>jeans</code>, <code>black-jeans</code>, <code>formal</code>, <code>stripes</code>, <code>golden-shorts</code>, <code>random</code></td><td>Trousers, each with its own shoes.</td></tr>
+            <tr><td><code>props</code></td><td>Space-separated: <code>guitar</code>, <code>mic</code>, <code>clicker</code>, <code>laptop</code>, <code>phone</code>, <code>guinness</code>, <code>point-left</code>, <code>point-right</code>, <code>peace-left</code>, <code>peace-right</code>, <code>lanyard</code>, <code>lei</code>, or <code>random</code></td><td>What he’s holding or wearing. Each hand holds one thing, so when props clash the later one wins. Left and right are Bruce’s own.</td></tr>
+            <tr><td><code>rant</code></td><td><code>engines</code>, <code>dma</code>, <code>ai</code>, <code>standards</code>, <code>random</code></td><td>The topic of his speech bubble when pressed.</td></tr>
+            <tr><td><code>hoedown</code></td><td>boolean</td><td>Plays a hoedown, and he jigs and pulls faces. Browsers block autoplay, so he waits for a press.</td></tr>
+            <tr><td><code>hoedown-src</code></td><td>URL</td><td>Plays your audio file instead of the built-in hoedown.</td></tr>
+            <tr><td><code>glamorous</code></td><td>anything except <code>"false"</code></td><td>Try <code>"false"</code> and check the console.</td></tr>
+            <tr><td><code>ai</code></td><td>boolean</td><td>He refuses to work.</td></tr>
+            <tr><td><code>reduced-motion</code></td><td>boolean</td><td>He stops moving and glares, just as when your system asks for reduced motion.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="api">
+        <p>Methods: <code>rant()</code>, <code>say(text)</code>, <code>reroll()</code> and <code>hush()</code>.</p>
+      </div>
+      <h2>On your own page</h2>
+      <ol class="steps">
+        <li>Copy <code>src/bruce-lawson.js</code>, <code>assets/heads/</code> and <code>assets/audio/</code> to your site, keeping that folder layout.</li>
+        <li>Load it once: <code>&lt;script type="module" src="src/bruce-lawson.js"&gt;&lt;/script&gt;</code></li>
+        <li>Add him: <code>&lt;bruce-lawson top="cowboy" props="guitar"&gt;&lt;/bruce-lawson&gt;</code></li>
+        <li>Serve it from a web server (localhost is fine). Size him with <code>--bruce-size</code>, and leave room above him for his opinions.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>Made for Brucefest. Fully keyboard accessible, respects reduced motion, and works without JavaScript (sort of).</footer>
+</div>
+
+</body>
+</html>

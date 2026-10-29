@@ -1,0 +1,12 @@
+# Kept locally, not published: the head and icon pipeline, its source photos and output
+tools/
+assets/source-photos/
+assets/heads/keynote.webp
+
+# Working notes for Claude Code
+CLAUDE.md
+.claude/
+
+# The usual
+node_modules/
+.DS_Store

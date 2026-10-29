@@ -1,0 +1,16 @@
+{
+  "name": "<bruce-lawson>",
+  "short_name": "Bruce",
+  "description": "Sixty is 0x3C in hex, and 0x3C is ASCII for <. So at 60, Bruce finally gets an element of his own.",
+  "lang": "en-GB",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbeef4",
+  "theme_color": "#c81d6e",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

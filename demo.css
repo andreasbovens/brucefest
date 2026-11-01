@@ -128,7 +128,7 @@
     .stage { height: var(--stage-h); min-height: 470px; padding: 16px 16px 10px; justify-content: flex-end; overflow: visible; }
     #star { --bruce-size: clamp(230px, calc((var(--stage-h) - 30px) / 1.9), 340px); }
     /* the panel is never taller than the stage; on short screens it scrolls inside itself */
-    .controls { max-height: max(470px, var(--stage-h)); overflow-y: auto; }
+    .controls { zoom: .9; max-height: calc(max(470px, var(--stage-h)) / .9); overflow-y: auto; }  /* 90% size, so it fits next to the stage on a laptop */
     .caption { position: absolute; left: 14px; bottom: 16px; margin: 0; max-width: min(26%, 150px); text-align: left; font-size: .74rem; line-height: 1.35; padding: .35em .7em; }
   }
   @media (max-width: 820px) {

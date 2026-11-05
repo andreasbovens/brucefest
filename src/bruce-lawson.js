@@ -7,21 +7,21 @@
 // Photo heads, cut out with tools/cut-heads.py. w and h are the image size in px,
 // fx is where the centre of the face sits across the image (0 to 1), and face is the face width in px.
 // label describes him with this face ("glaring over his glasses"); adj is one word for it ("glaring").
-const head = (file, w, h, fx, label, adj) => ({ src: new URL(`../assets/heads/${file}.webp`, import.meta.url).href, w, h, fx, face: 230, label, adj });
+const head = (file, w, h, fx, label, adj) => ({ src: new URL(`../assets/heads/${file}.webp`, import.meta.url).href, w, h, fx, face: 460, label, adj });  // face: the face width in pixels in the head images
 const HEADS = {
-  happy1: head("happy1", 272, 448, 0.509, "grinning", "grinning"),
-  happy2: head("happy2", 285, 428, 0.611, "beaming", "beaming"),
-  cheeky: head("cheeky", 300, 394, 0.633, "looking cheeky", "cheeky"),
-  quizzical: head("quizzical", 283, 437, 0.572, "raising a quizzical eyebrow", "quizzical"),
-  talk: head("talk", 288, 469, 0.624, "mid-rant", "ranting"),
-  orly: head("orly", 286, 441, 0.614, "going “O RLY?”", "“O RLY?”"),
-  glare: head("glare", 286, 452, 0.577, "glaring over his glasses", "glaring"),
-  jaded: head("jaded", 279, 399, 0.538, "looking jaded, he’s seen this before", "jaded"),
-  visionary: head("visionary", 310, 409, 0.547, "gazing into the future of the web", "visionary"),
-  innocent: head("innocent", 274, 399, 0.544, "looking innocent", "innocent"),
-  sceptical: head("sceptical", 318, 434, 0.52, "looking sceptical", "sceptical"),
-  smirk: head("smirk", 307, 415, 0.66, "smirking", "smirking"),
-  viking: head("viking", 330, 447, 0.515, "in a Viking helmet", "Viking"),
+  happy1: head("happy1", 544, 896, 0.509, "grinning", "grinning"),
+  happy2: head("happy2", 571, 856, 0.61, "beaming", "beaming"),
+  cheeky: head("cheeky", 601, 789, 0.632, "looking cheeky", "cheeky"),
+  quizzical: head("quizzical", 566, 874, 0.572, "raising a quizzical eyebrow", "quizzical"),
+  talk: head("talk", 576, 939, 0.624, "mid-rant", "ranting"),
+  orly: head("orly", 573, 883, 0.613, "going “O RLY?”", "“O RLY?”"),
+  glare: head("glare", 573, 904, 0.576, "glaring over his glasses", "glaring"),
+  jaded: head("jaded", 558, 799, 0.538, "looking jaded, he’s seen this before", "jaded"),
+  visionary: head("visionary", 621, 819, 0.546, "gazing into the future of the web", "visionary"),
+  innocent: head("innocent", 549, 799, 0.543, "looking innocent", "innocent"),
+  sceptical: head("sceptical", 637, 869, 0.519, "looking sceptical", "sceptical"),
+  smirk: head("smirk", 614, 831, 0.66, "smirking", "smirking"),
+  viking: head("viking", 660, 894, 0.515, "in a Viking helmet", "Viking"),
 };
 const IDLE_HEADS = ["happy1", "happy2", "cheeky", "quizzical", "visionary", "jaded", "innocent", "smirk", "viking"];
 const DANCE_HEADS = ["happy1", "cheeky", "happy2", "smirk", "viking", "quizzical"];
@@ -37,6 +37,7 @@ const TOPS = {
   "pin-jacket":    { label: "black jacket covered in pin badges", kind: "pins", sleeve: "full", seam: "#5a5b63" },
   "chaos":         { label: "red, blue, yellow and black shirt of pure chaos", kind: "shirt", sleeve: "full" },
   "opera-tee":     { label: "black Opera T-shirt", kind: "tee", sleeve: "short", seam: "#55555f" },
+  "vivaldi-tee":   { label: "black Vivaldi T-shirt", kind: "tee", sleeve: "short", seam: "#55555f" },
   "cowboy":        { label: "cowboy get-up with a cow-print waistcoat", kind: "cowboy", sleeve: "rolled" },
   "pink-blazer":   { label: "pink chaos blazer over a black T-shirt", kind: "blazer", under: "tee", sleeve: "full", seam: "#1b1b20" },
   "kitten-tee":    { label: "pink tie-dye T-shirt crowded with kittens", kind: "tee", sleeve: "short" }
@@ -106,13 +107,16 @@ const RANTS = {
     "One engine to rule them all is a great line in a fantasy novel and a terrible plan for the web.",
     "Monoculture is how you get bananas that all die at once. Don’t be a banana.",
     "If every browser is the same browser, who files the bugs?",
-    "Interop is a team sport. Bring your own engine."
+    "Interop is a team sport. Bring your own engine.",
+    "Safari on a folding iPhone? I’d like @media (viewport-segments: cracked) { content: \"Ask for a refund\" }."
   ],
   dma: [
     "The law says gatekeepers must let others compete. Apparently that’s an extreme interpretation.",
     "I’ve been to Brussels. The breakfasts were dreadful but the regulators were splendid.",
     "Malicious compliance is compliance in the same way a <div> is a button.",
-    "The DMA lets me uninstall Safari. I’ve done it twice, just to feel something."
+    "The DMA lets me uninstall Safari. I’ve done it twice, just to feel something.",
+    "I’m at a breakfast meeting. We’re now mingling. Send help.",
+    "My Schadenfreude Klaxon has burst into flames from overload. I’ll need a bigger one."
   ],
   ai: [
     "Free from Big Tech’s snooping and its AI-pooping.",
@@ -136,11 +140,65 @@ const RANTS = {
 };
 
 const rand = a => a[Math.floor(Math.random() * a.length)];
+
+// A soft "bloop" when he's pressed, made with Web Audio so there's no sound file to load.
+// The pitch varies a little each time; the quiet attribute turns it off.
+let audioCtx;
+function boing() {
+  try {
+    audioCtx ||= new AudioContext();
+    const t = audioCtx.currentTime, f = 420 + Math.random() * 80;
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(f, t);
+    osc.frequency.exponentialRampToValueAtTime(f * 1.5, t + .05);
+    osc.frequency.exponentialRampToValueAtTime(f * 1.25, t + .14);
+    gain.gain.setValueAtTime(.0001, t);
+    gain.gain.exponentialRampToValueAtTime(.07, t + .01);
+    gain.gain.exponentialRampToValueAtTime(.0001, t + .16);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(t); osc.stop(t + .18);
+  } catch { /* no Web Audio: he presses silently */ }
+}
+// A "whoosh" for turning the card over: a burst of noise swept up and down through a filter, timed to the flip,
+// with a soft flap as it lands. Turning back sweeps the other way.
+function whoosh(back) {
+  try {
+    audioCtx ||= new AudioContext();
+    const ac = audioCtx, t = ac.currentTime, len = .6;
+    const buf = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const src = ac.createBufferSource(), filter = ac.createBiquadFilter(), gain = ac.createGain();
+    src.buffer = buf; filter.type = "bandpass"; filter.Q.value = 1.2;
+    const [lo, hi] = back ? [1800, 350] : [350, 1800];
+    filter.frequency.setValueAtTime(lo, t);
+    filter.frequency.exponentialRampToValueAtTime(hi, t + .3);
+    filter.frequency.exponentialRampToValueAtTime(lo * .8, t + len);
+    gain.gain.setValueAtTime(.0001, t);
+    gain.gain.exponentialRampToValueAtTime(.12, t + .25);
+    gain.gain.exponentialRampToValueAtTime(.0001, t + len);
+    src.connect(filter).connect(gain).connect(ac.destination); src.start(t);
+    const flap = ac.createOscillator(), fg = ac.createGain();
+    flap.frequency.setValueAtTime(180, t + .5); flap.frequency.exponentialRampToValueAtTime(90, t + .6);
+    fg.gain.setValueAtTime(.0001, t); fg.gain.setValueAtTime(.08, t + .5); fg.gain.exponentialRampToValueAtTime(.0001, t + .62);
+    flap.connect(fg).connect(ac.destination); flap.start(t + .5); flap.stop(t + .64);
+  } catch { /* no Web Audio: he turns silently */ }
+}
 const TALK_STYLES = ["yap", "nod", "lean", "hop"];  // how he moves while ranting, picked at random
 const reducedMotion = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* ---------- the hoedown ---------- */
-const HOEDOWN_SRC = new URL("../assets/audio/hoedown.mp4", import.meta.url).href;  // hoedown-src overrides it
+const HOEDOWN_SRC = new URL("../assets/audio/hoedown.mp4", import.meta.url).href;
+// background: an optional stage behind him, so the element is the whole framed card. Any other value is used as an image URL.
+const BACKGROUNDS = {
+  gallery: "Bruce’s gallery wall", oslo: "the Oslo Opera House", irises: "iris wallpaper",
+  stage: "a conference stage", cma: "the Competition & Markets Authority", eu: "EU flags"
+};
+const bgURL = key => BACKGROUNDS[key] ? new URL(`../assets/backgrounds/${key}.webp`, import.meta.url).href : key;
+// The back of the card (flipped): his own source code, read from this very file, and Alex Russell pointing at it.
+const ALEX_SRC = new URL("../assets/extras/alex.webp", import.meta.url).href;
+const ALEX_LINE = kb => `No framework, no build step, ${kb} KB gzipped. That’s a web component.`;
+let SOURCE;  // a promise of this file's text, fetched the first time anyone flips him  // hoedown-src overrides it
 // Lines he sings along with the built-in hoedown, in seconds from the start. They repeat each time the song loops.
 const HOEDOWN_CUES = [
   [1, "Hold your horses, friend! It’s just a means, it’s not an end."],
@@ -170,7 +228,7 @@ function topPattern(id, key) {
   // a ring of dots, as on Bruce's dotty circles shirt
   const dots = (cx, cy, r, c, w = 1.7) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-dasharray="0 ${(w * 1.55).toFixed(2)}"/>`;
   switch (key) {
-    case "compliant-tee": case "opera-tee": return solid("#1b1b20");
+    case "compliant-tee": case "opera-tee": case "vivaldi-tee": return solid("#1b1b20");
     case "blazer": return solid("#1f1f25") + `<pattern id="${id}-in" width="4" height="4" patternUnits="userSpaceOnUse">
       <rect width="4" height="4" fill="#f6f4ef"/><rect width=".8" height="4" fill="#dcd7cc"/></pattern>`;
     case "circles": return `<pattern id="${id}" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(8)">
@@ -347,6 +405,10 @@ function torsoSVG(u, topKey) {
           ${kitten(84, 96, 13, "#1b1b20", "#7fb8c9", { muzzle: "#f5f1ea" })}
           <g><circle cx="76" cy="118" r="3.4" fill="#4f7fd0"/><circle cx="83" cy="123" r="3" fill="#e86a3a"/><circle cx="73" cy="125" r="2.8" fill="#f2c14e"/><circle cx="81" cy="114" r="2.4" fill="#3f8a4a"/><circle cx="70" cy="119" r="2.2" fill="#c8232c"/></g>
           ${kitten(104, 119, 13, "#efe2cf", "#5aa0e0", { mask: "#7a4a2c" })}`;
+      // the Vivaldi logo (a red squircle with a white disc and a red V) over the lowercase wordmark
+      if (topKey === "vivaldi-tee") s += `<g transform="translate(87 63) scale(1.08)"><circle cx="11.83" cy="12" r="9" fill="#fff"/>
+          <path fill="#ef3939" d="M12 0C6.75 0 3.817 0 1.912 1.904.007 3.81 0 6.75 0 12s0 8.175 1.912 10.08C3.825 23.985 6.75 24 12 24c5.25 0 8.183 0 10.088-1.904C23.993 20.19 24 17.25 24 12s0-8.175-1.912-10.08C20.175.015 17.25 0 12 0zm-.168 3a9 9 0 016.49 2.648 9 9 0 010 12.704A9 9 0 1111.832 3zM7.568 7.496a1.433 1.433 0 00-.142.004A1.5 1.5 0 006.21 9.75l1.701 3c.93 1.582 1.839 3.202 2.791 4.822a1.417 1.417 0 001.41.75 1.5 1.5 0 001.223-.81l4.447-7.762A1.56 1.56 0 0018 8.768a1.5 1.5 0 10-2.828.914 2.513 2.513 0 01.256 1.119v.246a2.393 2.393 0 01-2.52 2.13 2.348 2.348 0 01-1.965-1.214c-.307-.51-.6-1.035-.9-1.553-.42-.72-.826-1.41-1.246-2.16a1.433 1.433 0 00-1.229-.754Z"/></g>
+          <text x="100" y="103" text-anchor="middle" font-family="Bricolage Grotesque, Arial, sans-serif" font-weight="700" font-size="11.5" fill="${CREAM}">vivaldi</text>`;
       if (topKey === "opera-tee") s += `<text x="100" y="62" text-anchor="middle" font-family="Bricolage Grotesque, Arial Black, sans-serif" font-weight="800" font-size="13" letter-spacing="1" fill="${CREAM}">OPERA</text>
           <path id="${u}-sealT" d="M83 92a17 17 0 0 1 34 0" fill="none"/><path id="${u}-sealB" d="M79.5 92a20.5 20.5 0 0 0 41 0" fill="none"/>
           <circle cx="100" cy="92" r="22.5" fill="none" stroke="${CREAM}" stroke-width="1.8"/><circle cx="100" cy="92" r="14.5" fill="none" stroke="${CREAM}" stroke-width="1"/>
@@ -584,10 +646,59 @@ function headBox(h) {
 
 const STYLE = `
   :host { display: inline-block; --bruce-size: 240px; width: var(--bruce-size); position: relative; vertical-align: bottom;
-    font: 600 max(12px, calc(var(--bruce-size) * .058))/1.35 "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif; }
+    perspective: calc(var(--bruce-size) * 5); font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif; }
   :host([hidden]) { display: none; }
-  .wrap { position: relative; }
+  .wrap { position: relative; width: var(--bruce-size); font: 600 max(12px, calc(var(--bruce-size) * .058))/1.35 "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif; }
   .fig { all: unset; display: block; width: 100%; cursor: pointer; border-radius: 18px; }
+  /* With a background he brings his own stage: the element becomes the whole framed card (520px tall unless the page
+     says otherwise), and he sizes himself to fit it, leaving room above his head for the speech bubble. */
+  :host([background]:not([background="none"])) { display: block; width: auto; height: 520px; container-type: size; perspective: 2000px; }
+  /* --bruce-floor is the space below his feet (10px), for a page that wants to put something there */
+  .card.staged { height: 100%; --bruce-size: min(62cqw, calc((100cqh - 6px - var(--bruce-floor, 10px)) / 2.14)); }
+  .staged .front { height: 100%; box-sizing: border-box; padding: 16px 16px var(--bruce-floor, 10px); display: flex; justify-content: center; align-items: flex-end;
+    background: #e6d8bd center / cover no-repeat; border-radius: 6px; box-shadow: 6px 6px 0 #2a1838; }
+  /* flipped: the card turns over to show his source code, and Alex Russell slides in to point at it */
+  .card { position: relative; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.5, -.2, .3, 1.3); }
+  .card.flipped { transform: rotateY(180deg); }
+  .front, .back { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .back { position: absolute; inset: 0; transform: rotateY(180deg); cursor: pointer; }
+  .code { position: absolute; inset: 2% 0 2.5%; display: flex; flex-direction: column; overflow: hidden;
+    background: #1d1228; color: #f7e9f1; border: 3px solid #fff; border-radius: 14px; box-shadow: 4px 4px 0 rgb(42 24 56 / .3);
+    font: 400 calc(var(--bruce-size) * .028)/1.45 "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; }
+  .staged .back { overflow: hidden; border-radius: 6px; box-shadow: 6px 6px 0 #2a1838; }
+  .staged .code { inset: 0; border: 0; border-radius: 0; box-shadow: none; font-size: max(9px, calc(var(--bruce-size) * .045)); }
+  .code .tag { margin: 0; padding: .9em 1em .8em; font-size: 1.55em; font-weight: 600; white-space: pre; border-bottom: 2px solid #3b284a; }
+  .staged .code .tag { font-size: 1.2em; }
+  .code .t { color: #ff7ab8; } .code .a { color: #f2c14e; } .code .v { color: #7fd8c0; } .code .c { color: #8f7a99; }
+  .code .src { flex: 1; overflow: hidden; padding: 0 1em; mask-image: linear-gradient(transparent, #000 8%, #000 85%, transparent); }
+  .code .src pre { margin: 0; padding: 1em 0 4em; font: inherit; white-space: pre; animation: credits var(--credits, 120s) linear infinite; }
+  .back:hover .src pre { animation-play-state: paused; }
+  .code pre { cursor: text; }  /* the code can be selected and copied; a plain click or tap elsewhere turns him back */
+  .copy { position: absolute; top: calc(2% + 10px); right: 10px; z-index: 1; font: 700 12px/1 system-ui, sans-serif; padding: 6px 10px;
+    border: 2px solid #f7e9f1; border-radius: 999px; background: #1d1228; color: #f7e9f1; cursor: pointer; }
+  .staged .copy { top: 10px; }
+  .copy:hover { background: #3b284a; }
+  .copy:focus-visible { outline: 3px solid #ff8cc4; outline-offset: 2px; }
+  @keyframes credits { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+  .alex { position: absolute; left: 64%; bottom: 0; width: 50%; pointer-events: none; z-index: 2;
+    opacity: 0; transform: translateX(25%) rotate(6deg); transform-origin: 50% 100%; transition: opacity .25s, transform .35s; }
+  .alex img { display: block; width: 100%; filter: drop-shadow(3px 3px 0 rgb(42 24 56 / .3)); }
+  .staged .alex { left: auto; right: 3%; width: auto; }
+  .staged .alex img { width: auto; height: min(43cqh, 56cqw); }
+  .flipped .alex { opacity: 1; transform: none; transition-delay: .45s; }
+  /* pressing Alex sends him (and his bubble) away; pressing the code then turns the card back */
+  .flipped .alex img { pointer-events: auto; cursor: pointer; }
+  .flipped .alex.gone { opacity: 0; transform: translateX(25%) rotate(6deg); transition-delay: 0s; }
+  .flipped .alex.gone img { pointer-events: none; }
+  /* his bubble floats above him, out of the flow, so its arrival can't nudge him sideways */
+  .alex .say { position: absolute; bottom: calc(100% + 12px); left: 50%; width: max-content; max-width: max(150px, calc(var(--bruce-size) * 1.15));
+    font: 600 max(12px, calc(var(--bruce-size) * .058))/1.35 "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    transform: translate(-50%, 6px); opacity: 0; transition: opacity .2s, transform .2s; }
+  .alex .say:not(:empty) { opacity: 1; transform: translate(-50%, 0); }
+  .staged .alex .say { left: auto; right: 0; transform: translateY(6px); }
+  .staged .alex .say:not(:empty) { transform: none; }
+  .staged .alex .say::after { left: auto; right: 30%; }
+  .say .who { display: block; font-size: .72em; text-transform: uppercase; letter-spacing: .06em; color: #c81d6e; }
   .fig:focus-visible { outline: 3px solid var(--bruce-focus, #c81d6e); outline-offset: 4px; }
   svg { display: block; width: 100%; height: auto; overflow: visible; }
   .all { transform-origin: 100px 378px; animation: sway 2.6s ease-in-out infinite; }
@@ -616,48 +727,83 @@ const STYLE = `
   @keyframes lean { 0%, 100% { transform: rotate(0); } 40%, 60% { transform: rotate(4deg) translateX(4px); } }
   @keyframes hop { 0%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } 55% { transform: translateY(0); } }
   @keyframes yap { 0%, 100% { transform: rotate(-2deg) translateY(0); } 50% { transform: rotate(2deg) translateY(-2px); } }
+  .bubble, .say { background: var(--bruce-bubble-bg, #fff); color: var(--bruce-bubble-ink, #2a1838); text-align: center;
+    border: 2px solid #2a1838; padding: .55em .8em; border-radius: 14px; box-shadow: 4px 4px 0 #2a1838; }
+  .say::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -9px; border: 9px solid transparent; border-top-color: #2a1838; }
   .bubble { position: absolute; left: 50%; bottom: 96%; width: max-content;
     max-width: var(--bruce-bubble-max, max(150px, calc(var(--bruce-size) * 1.15)));
-    background: var(--bruce-bubble-bg, #fff); color: var(--bruce-bubble-ink, #2a1838);
-    border: 2px solid #2a1838; padding: .55em .8em; border-radius: 14px; box-shadow: 4px 4px 0 #2a1838;
-    opacity: 0; transform: translate(-50%, 6px); transition: opacity .2s, transform .2s; pointer-events: none; z-index: 3; text-align: center; }
+    opacity: 0; transform: translate(-50%, 6px); transition: opacity .2s, transform .2s; pointer-events: none; z-index: 3; }
   .bubble::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -9px; border: 9px solid transparent; border-top-color: #2a1838; }
   .bubble.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; cursor: pointer; }  /* click to hush */
   ::slotted([slot="accessory"]) { position: absolute; left: 50%; top: 30%; transform: translateX(-50%); pointer-events: none; z-index: 2; font-size: calc(var(--bruce-size) * .1); }
   .still .all, .still .head, .still .legL, .still .legR { animation: none !important; }
-  @media (prefers-reduced-motion: reduce) { .all, .head, .legL, .legR { animation: none !important; } .bubble { transition: none; } }
+  .still .alex { transition: none; }
+  .still .src { overflow: auto; } .still .src pre { animation: none; }
+  @media (prefers-reduced-motion: reduce) { .all, .head, .legL, .legR { animation: none !important; } .bubble, .card, .alex { transition: none; }
+    .src { overflow: auto; } .src pre { animation: none; } }
 `;
 
 class BruceLawson extends HTMLElement {
-  static observedAttributes = ["head", "top", "legs", "props", "rant", "hoedown", "hoedown-src", "glamorous", "ai", "reduced-motion"];
+  static observedAttributes = ["head", "top", "legs", "props", "rant", "hoedown", "hoedown-src", "glamorous", "ai", "reduced-motion", "flipped", "background"];
   static heads = HEADS;
   static tops = TOPS;
   static legs = LEGS;
   static props = PROPS;
   static resolveProps = list => resolveProps(list).list;
   static topics = TOPICS;
+  static backgrounds = BACKGROUNDS;
 
   constructor() {
     super();
     this._uid = "b" + Math.random().toString(36).slice(2, 8);
     const root = this.attachShadow({ mode: "open" });
     root.innerHTML = `<style>${STYLE}</style>
-      <div class="wrap" part="wrap">
-        <div class="bubble" part="bubble" role="status" aria-live="polite"></div>
-        <button class="fig" part="figure" type="button"></button>
-        <slot name="accessory"></slot>
+      <div class="card">
+        <div class="front" part="stage">
+          <div class="wrap" part="wrap">
+            <div class="bubble" part="bubble" role="status" aria-live="polite"></div>
+            <button class="fig" part="figure" type="button"></button>
+            <slot name="accessory"></slot>
+          </div>
+        </div>
+        <div class="back" part="back">
+          <div class="code" aria-hidden="true"><pre class="tag"></pre><div class="src"><pre></pre></div></div>
+          <button class="copy" part="copy" type="button">Copy markup</button>
+          <div class="alex" part="alex"><div class="say" role="status" aria-live="polite"></div><img src="${ALEX_SRC}" alt="" loading="lazy"></div>
+        </div>
       </div>`;
     this._wrap = root.querySelector(".wrap");
     this._bubble = root.querySelector(".bubble");
     this._bubble.addEventListener("click", () => this.hush());
     this._btn = root.querySelector(".fig");
+    this._card = root.querySelector(".card");
+    this._front = root.querySelector(".front");
+    this._back = root.querySelector(".back");
+    this._alexSay = root.querySelector(".say");
+    this._alex = root.querySelector(".alex");
+    this._alex.querySelector("img").addEventListener("click", e => { e.stopPropagation(); this._alex.classList.add("gone"); });
+    // a click or tap turns him back, but not the end of a drag that selected some code to copy
+    this._back.addEventListener("pointerdown", e => { this._downAt = [e.clientX, e.clientY]; });
+    this._back.addEventListener("click", e => {
+      const [x, y] = this._downAt || [e.clientX, e.clientY];
+      const sel = (root.getSelection ? root.getSelection() : getSelection()).toString();
+      if (Math.hypot(e.clientX - x, e.clientY - y) > 4 || sel) return;
+      this.flip(false);
+    });
+    const copy = root.querySelector(".copy");
+    copy.addEventListener("click", async e => {
+      e.stopPropagation();
+      try { await navigator.clipboard.writeText(this._back.querySelector(".tag").textContent); copy.textContent = "Copied!"; }
+      catch { getSelection().selectAllChildren(this._back.querySelector(".tag")); copy.textContent = "Selected: now copy"; }  // no clipboard access
+      clearTimeout(this._copyT); this._copyT = setTimeout(() => { copy.textContent = "Copy markup"; }, 1600);
+    });
     this._lastRant = null; this._refusals = 0; this._toldMotion = false; this._playing = false; this._danceIdx = 0;
     this._btn.addEventListener("click", () => this._onPress());
   }
 
   connectedCallback() {
-    // Escape hushes every Bruce on the page
-    if (!this._onKey) this._onKey = e => { if (e.key === "Escape") this.hush(); };
+    // Escape hushes every Bruce on the page, and turns him back round
+    if (!this._onKey) this._onKey = e => { if (e.key === "Escape") { this.hush(); this.flip(false); } };
     addEventListener("keydown", this._onKey);
     if (!this._onShimmer) this._onShimmer = e => {
       if (e.type === "pointermove") this._pointer = [e.clientX, e.clientY];
@@ -665,15 +811,17 @@ class BruceLawson extends HTMLElement {
     };
     addEventListener("pointermove", this._onShimmer, { passive: true }); addEventListener("scroll", this._onShimmer, { passive: true });
     this._resolve("top"); this._resolve("legs"); this._resolveProps();
+    this._setBackground();
     this._idleHead = rand(IDLE_HEADS);
     this._ready = true;
     this._render();
     if (this.hasAttribute("ai")) this.say(RANTS.refuse[0]);
     else if (this.getAttribute("glamorous") === "false") this._offend();
     if (this.hasAttribute("hoedown")) this._startHoedown(false);
+    if (this.hasAttribute("flipped")) this._flipped(true);
   }
   disconnectedCallback() {
-    this._stopHoedown(true); clearTimeout(this._sayT);
+    this._stopHoedown(true); clearTimeout(this._sayT); clearTimeout(this._alexT);
     removeEventListener("keydown", this._onKey);
     removeEventListener("pointermove", this._onShimmer); removeEventListener("scroll", this._onShimmer);
   }
@@ -701,9 +849,17 @@ class BruceLawson extends HTMLElement {
       case "hoedown": case "hoedown-src":
         if (this.hasAttribute("hoedown")) this._startHoedown(false); else this._stopHoedown();
         break;
+      case "background":
+        this._setBackground();
+        this._emit("bruce:change", { part: "background", value: this._bg, label: BACKGROUNDS[this._bg] || this._bg || "none" });
+        this._updateLabel();
+        return;
+      case "flipped":
+        this._flipped(newV !== null);
+        return;  // no need to redraw him, the card just turns
       case "reduced-motion":
         if (newV !== null) this._tellMotion();
-        else { this._toldMotion = false; this.say("Right. Back to dancing."); }
+        else { this._toldMotion = false; this.say(this.hasAttribute("hoedown") ? "Right. Back to dancing." : "Right. I can move again."); }
         break;
     }
     this._render();
@@ -724,9 +880,17 @@ class BruceLawson extends HTMLElement {
     this._applyHead();
     this._sayT = setTimeout(() => { b.classList.remove("show"); this._speaking = null; this._applyHead(); }, ms);
   }
-  hush() { clearTimeout(this._sayT); this._bubble.classList.remove("show"); this._speaking = null; this._applyHead(); }
-  reroll() { this._resolve("top", true); this._resolve("legs", true); this._resolveProps(true); this._idleHead = rand(IDLE_HEADS); this._render(); }
+  hush() { clearTimeout(this._sayT); this._alexSay.textContent = ""; this._bubble.classList.remove("show"); this._speaking = null; this._applyHead(); }
+  reroll() {
+    this._resolve("top", true); this._resolve("legs", true); this._resolveProps(true); this._idleHead = rand(IDLE_HEADS);
+    if (this.getAttribute("background") === "random") this._setBackground();
+    this._render();
+  }
   render() { this._render(); }
+  // the background he is standing in front of (after "random" has been settled), or null
+  get background() { return this._bg || null; }
+  // turns him over to show his source code (or back, with false)
+  flip(force) { this.toggleAttribute("flipped", force === undefined ? !this.hasAttribute("flipped") : force); }
   // the props he actually has, after clashes between hands are settled
   // the name of the face he is showing right now
   get shownHead() { return this._shownHead || this._headName(); }
@@ -794,6 +958,48 @@ class BruceLawson extends HTMLElement {
     this._wrap.classList.toggle("talking", !!this._speaking && !this.hasAttribute("ai"));
     this._updateLabel();
   }
+  // "random" picks a different photo from the one showing; "none" or no attribute means no stage, just Bruce
+  _setBackground() {
+    let v = this.getAttribute("background");
+    if (v === "random") v = rand(Object.keys(BACKGROUNDS).filter(k => k !== this._bg));
+    else if (v === "") v = "gallery";
+    else if (v === "none") v = null;
+    this._bg = v;
+    this._card.classList.toggle("staged", !!v);
+    this._front.style.backgroundImage = v ? `url("${bgURL(v)}")` : "";
+  }
+  _flipped(on) {
+    if (this._card.classList.contains("flipped") !== on && !this.hasAttribute("quiet")) whoosh(!on);
+    this._card.classList.toggle("flipped", on);
+    this._updateLabel();
+    clearTimeout(this._alexT);
+    this.hush();
+    if (on) {
+      this._alex.classList.remove("gone");
+      this._fillBack();
+      // he quotes the real gzipped size of this file, worked out in the browser
+      const kb = SOURCE.then(src => new Response(new Blob([src]).stream().pipeThrough(new CompressionStream("gzip"))).arrayBuffer())
+        .then(b => Math.round(b.byteLength / 1024), () => 24);
+      this._alexT = setTimeout(async () => { const n = await kb; if (!this.hasAttribute("flipped")) return;
+        this._alexSay.innerHTML = `<span class="who">Alex Russell: </span>`; this._alexSay.append(ALEX_LINE(n)); }, this._still ? 0 : 900);
+    }
+    this._emit("bruce:flip", { flipped: on });
+  }
+  // the back: his markup as it stands, then this file's source rolling past like film credits
+  _fillBack() {
+    const esc = t => t.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+    const attrs = this.getAttributeNames().filter(a => !["flipped", "style", "class"].includes(a))
+      .map(a => `<span class="a">${a}</span>` + (this.getAttribute(a) === "" ? "" : `=<span class="v">"${esc(this.getAttribute(a))}"</span>`));
+    const t = n => `<span class="t">${n}</span>`;
+    this._back.querySelector(".tag").innerHTML = `&lt;${t("bruce-lawson")}${attrs.map(a => "\n  " + a).join("")}&gt;\n&lt;/${t("bruce-lawson")}&gt;`;
+    const pre = this._back.querySelector(".src pre");  // the source only needs reading once
+    if (pre.childNodes.length) return;
+    SOURCE ||= fetch(import.meta.url).then(r => r.text()).catch(() => "// The source is out for lunch.");
+    SOURCE.then(src => {
+      pre.innerHTML = src.split("\n").map(l => /^\s*\/\//.test(l) ? `<span class="c">${esc(l)}</span>` : esc(l)).join("\n");
+      pre.style.setProperty("--credits", Math.round(src.split("\n").length * .13) + "s");
+    });
+  }
   _render() {
     if (!this._ready) return;
     const u = this._uid, mood = this._mood;
@@ -835,14 +1041,17 @@ class BruceLawson extends HTMLElement {
     this._headImg = this._headG.querySelector("image");
     this._shownHead = null;
     this._wrap.className = "wrap " + mood + (this._still ? " still" : "") + (this._playing ? " jig" : "");
+    this._card.classList.toggle("still", this._still);
+    if (this.hasAttribute("flipped")) this._fillBack();
     this._applyHead();
     this._emit("bruce:render", { head: this._headName(), headLabel: HEADS[this._headName()].label, top: L.top, legs: L.legs, props: refuse ? [...neck] : this.props, propsLabel: L.props, mood, playing: this._playing });
   }
   _updateLabel() {
     const L = this._labels(), mood = this._mood, h = HEADS[this._headName()];
     let label;
-    if (mood === "refuse") label = "Bruce Lawson, arms crossed and glaring, refusing to work with AI. Press to try anyway.";
-    else label = `Bruce Lawson, ${h.label}, in a ${L.top}, ${L.legs}${L.props ? ", " + L.props : ""}. ${this.hasAttribute("hoedown") && !this._playing ? "Press to start the hoedown." : "Press for a rant."}`;
+    if (this.hasAttribute("flipped")) label = "Bruce Lawson, turned over to show his source code, with Alex Russell pointing at it. Press to turn him back.";
+    else if (mood === "refuse") label = "Bruce Lawson, arms crossed and glaring, refusing to work with AI. Press to try anyway.";
+    else label = `Bruce Lawson, ${h.label}, in a ${L.top}, ${L.legs}${L.props ? ", " + L.props : ""}${BACKGROUNDS[this._bg] ? ", in front of " + BACKGROUNDS[this._bg] : ""}. ${this.hasAttribute("hoedown") && !this._playing ? "Press to start the hoedown." : "Press for a rant."}`;
     this._btn.setAttribute("aria-label", label);
   }
   _emit(type, detail) { this.dispatchEvent(new CustomEvent(type, { detail, bubbles: true, composed: true })); }
@@ -852,6 +1061,8 @@ class BruceLawson extends HTMLElement {
     this._emit("bruce:offended", {});
   }
   _onPress() {
+    if (!this.hasAttribute("quiet") && !this._playing) boing();
+    if (this.hasAttribute("flipped")) { this.flip(false); return; }
     if (this.hasAttribute("hoedown") && !this._playing && !this.hasAttribute("ai")) { this._startHoedown(true); return; }
     this._rant();
   }
@@ -874,7 +1085,8 @@ class BruceLawson extends HTMLElement {
   }
   _tellMotion() {
     this._toldMotion = true;
-    const t = "I’m not dancing. You asked for reduced motion, and I respect that.";
+    // "dancing" only during the hoedown; otherwise he just isn't moving
+    const t = `I’m not ${this.hasAttribute("hoedown") ? "dancing" : "moving"}. You asked for reduced motion, and I respect that.`;
     this.say(t, 6500, "glare"); this._emit("bruce:rant", { topic: "motion", text: t });
   }
   _canAutoplay() { const ua = navigator.userActivation; return !ua || ua.hasBeenActive; }

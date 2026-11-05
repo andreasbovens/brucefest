@@ -20,23 +20,23 @@
 <div class="page">
 
   <header class="hero">
-    <div class="glyph" aria-hidden="true">&lt;</div>
-    <div>
-      <h1>Bruce turns &lt;</h1>
-      <p class="lede">Sixty is 0x3C in hex, and 0x3C is ASCII for &lt;. So at 60, Bruce finally gets an element of his own. Introducing <code>&lt;bruce-lawson&gt;</code></p>
-    </div>
+    <h1>Bruce, <em>in his element</em></h1>
+    <p class="lede">Introducing the <code>&lt;bruce-lawson&gt;</code> web component.</p>
   </header>
 
   <div class="layout">
     <div>
-      <div class="paper stage" id="stage">
-        <bruce-lawson id="star" head="auto" top="random" legs="random" props="random" rant="random" glamorous>
-          <p class="nojs">Bruce approves of your decision to turn off JavaScript.</p>
+      <div class="stage" id="stage">
+        <bruce-lawson background="gallery" head="auto" top="random" legs="random" props="random" rant="random" glamorous>
+          <!-- what you get without JavaScript: anything inside the element shows until it upgrades, then the shadow DOM hides it -->
+          <div class="nojs">
+            <p class="nojs-say">No JavaScript? Fine by me. This is progressive enhancement: still a Bruce, just fewer moving parts.</p>
+            <img src="assets/heads/smirk.webp" width="614" height="831" alt="Bruce Lawson, smirking">
+          </div>
         </bruce-lawson>
-        <p class="caption" id="caption" aria-hidden="true"></p>
+        <p class="caption" id="caption" aria-hidden="true">A smirking Bruce, progressively enhanced.</p>
         <button type="button" class="stage-grip" id="stageGrip" aria-label="Resize the stage. Arrow keys resize, Alt and the arrow keys move it, Home resets." title="Drag to resize. Double-click to reset."></button>
       </div>
-      <pre class="markup" id="markup" aria-label="Current markup"></pre>
     </div>
 
     <div class="controls" id="controls">
@@ -66,14 +66,15 @@
       <div class="buttons">
         <button type="button" class="btn primary" id="rantBtn">Rant</button>
         <button type="button" class="btn" id="shhBtn" title="Stop talking (or press Escape, or click his speech bubble)">Shh</button>
+        <button type="button" class="btn" id="flipBtn" aria-pressed="false" title="Turn him over to see what he’s made of">View Source</button>
       </div>
     </div>
   </div>
 
   <section class="two">
-    <div>
+    <div class="needs-js">
       <h2>Event log</h2>
-      <p>Bruce fires <code>bruce:rant</code>, <code>bruce:change</code>, <code>bruce:hoedown</code> and <code>bruce:offended</code>. They bubble out of the shadow DOM, like his opinions.</p>
+      <p>Bruce fires <code>bruce:rant</code>, <code>bruce:change</code>, <code>bruce:hoedown</code>, <code>bruce:flip</code> and <code>bruce:offended</code>. They bubble out of the shadow DOM, like his opinions.</p>
       <ul class="log" id="log"><li class="empty">Nothing yet. Press Bruce.</li></ul>
     </div>
     <div>
@@ -83,7 +84,8 @@
           <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">What it does</th></tr></thead>
           <tbody>
             <tr><td><code>head</code></td><td><code>auto</code>, <code>happy1</code>, <code>happy2</code>, <code>cheeky</code>, <code>quizzical</code>, <code>talk</code>, <code>orly</code>, <code>glare</code>, <code>jaded</code>, <code>visionary</code>, <code>innocent</code>, <code>sceptical</code>, <code>smirk</code>, <code>viking</code></td><td><code>auto</code> picks a face to suit his mood, and swaps it while he rants.</td></tr>
-            <tr><td><code>top</code></td><td><code>compliant-tee</code>, <code>blazer</code>, <code>circles</code>, <code>pin-jacket</code>, <code>chaos</code>, <code>opera-tee</code>, <code>cowboy</code>, <code>pink-blazer</code>, <code>kitten-tee</code>, <code>random</code></td><td>What he’s wearing on top.</td></tr>
+            <tr><td><code>background</code></td><td><code>gallery</code>, <code>oslo</code>, <code>irises</code>, <code>stage</code>, <code>cma</code>, <code>eu</code>, <code>random</code>, or an image URL</td><td>He brings his own stage, and the element becomes the whole framed card. Without it, he’s a cut-out.</td></tr>
+            <tr><td><code>top</code></td><td><code>compliant-tee</code>, <code>blazer</code>, <code>circles</code>, <code>pin-jacket</code>, <code>chaos</code>, <code>opera-tee</code>, <code>vivaldi-tee</code>, <code>cowboy</code>, <code>pink-blazer</code>, <code>kitten-tee</code>, <code>random</code></td><td>What he’s wearing on top.</td></tr>
             <tr><td><code>legs</code></td><td><code>jeans</code>, <code>black-jeans</code>, <code>formal</code>, <code>stripes</code>, <code>golden-shorts</code>, <code>random</code></td><td>Trousers, each with its own shoes.</td></tr>
             <tr><td><code>props</code></td><td>Space-separated: <code>guitar</code>, <code>mic</code>, <code>clicker</code>, <code>laptop</code>, <code>phone</code>, <code>guinness</code>, <code>point-left</code>, <code>point-right</code>, <code>peace-left</code>, <code>peace-right</code>, <code>lanyard</code>, <code>lei</code>, or <code>random</code></td><td>What he’s holding or wearing. Each hand holds one thing, so when props clash the later one wins. Left and right are Bruce’s own.</td></tr>
             <tr><td><code>rant</code></td><td><code>engines</code>, <code>dma</code>, <code>ai</code>, <code>standards</code>, <code>random</code></td><td>The topic of his speech bubble when pressed.</td></tr>
@@ -91,24 +93,26 @@
             <tr><td><code>hoedown-src</code></td><td>URL</td><td>Plays your audio file instead of the built-in hoedown.</td></tr>
             <tr><td><code>glamorous</code></td><td>anything except <code>"false"</code></td><td>Try <code>"false"</code> and check the console.</td></tr>
             <tr><td><code>ai</code></td><td>boolean</td><td>He refuses to work.</td></tr>
+            <tr><td><code>flipped</code></td><td>boolean</td><td>Turns him over to show his source code, and someone turns up to have a word about it.</td></tr>
             <tr><td><code>reduced-motion</code></td><td>boolean</td><td>He stops moving and glares, just as when your system asks for reduced motion.</td></tr>
+            <tr><td><code>quiet</code></td><td>boolean</td><td>No sound when you press him or turn him over.</td></tr>
           </tbody>
         </table>
       </div>
       <div class="api">
-        <p>Methods: <code>rant()</code>, <code>say(text)</code>, <code>reroll()</code> and <code>hush()</code>.</p>
+        <p>Methods: <code>rant()</code>, <code>say(text)</code>, <code>reroll()</code>, <code>hush()</code> and <code>flip()</code>.</p>
       </div>
       <h2>On your own page</h2>
       <ol class="steps">
-        <li>Copy <code>src/bruce-lawson.js</code>, <code>assets/heads/</code> and <code>assets/audio/</code> to your site, keeping that folder layout.</li>
+        <li>Copy <code>src/bruce-lawson.js</code> and <code>assets/</code> to your site, keeping that folder layout.</li>
         <li>Load it once: <code>&lt;script type="module" src="src/bruce-lawson.js"&gt;&lt;/script&gt;</code></li>
         <li>Add him: <code>&lt;bruce-lawson top="cowboy" props="guitar"&gt;&lt;/bruce-lawson&gt;</code></li>
-        <li>Serve it from a web server (localhost is fine). Size him with <code>--bruce-size</code>, and leave room above him for his opinions.</li>
+        <li>Serve it from a web server (localhost is fine). With a <code>background</code>, give him a width and height. Without one, size him with <code>--bruce-size</code> and leave room above him for his opinions.</li>
       </ol>
     </div>
   </section>
 
-  <footer>Made for Brucefest. Fully keyboard accessible, respects reduced motion, and works without JavaScript (sort of).</footer>
+  <footer>Made for Brucefest. Fully keyboard accessible, respects reduced motion, and works offline.</footer>
 </div>
 
 </body>

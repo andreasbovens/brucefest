@@ -27,12 +27,14 @@ Not covered by this licence
 The MIT licence above applies to the code only: the HTML, CSS and JavaScript
 files, the web app manifest and the service worker.
 
-It does not apply to anything in the assets/ folder:
+It does not apply to anything in the assets/ folder, or to the talk's photos:
 
-  assets/heads/        photos of Bruce Lawson
-  assets/backgrounds/  photos and images from third parties
-  assets/audio/        the hoedown recording
-  assets/icons/        icons made from one of the photos of Bruce
+  assets/heads/          photos of Bruce Lawson
+  assets/backgrounds/    photos and images from third parties
+  assets/audio/          the hoedown recording
+  assets/icons/          icons made from one of the photos of Bruce
+  assets/extras/         a photo of Alex Russell
+  presentation/photos/   photos and a video of Bruce and friends, and screenshots
 
 These files belong to their respective owners. They are included only for this
 non-commercial, affectionate parody made for Brucefest, and no licence to them

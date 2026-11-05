@@ -18,7 +18,7 @@ Any static server works (`python3 -m http.server` too).
 
 ## Use it
 
-1. Copy `src/bruce-lawson.js`, `assets/heads/` and `assets/audio/` to your site, keeping that folder layout (the component finds the images and audio relative to its own file).
+1. Copy `src/bruce-lawson.js` and `assets/` (heads, audio, extras and, for a stage, backgrounds) to your site, keeping that folder layout (the component finds the images and audio relative to its own file).
 2. Load the script once, as a module, and use the element:
 
 ```html
@@ -29,7 +29,7 @@ Any static server works (`python3 -m http.server` too).
 | Attribute | Values |
 | --- | --- |
 | `head` | `auto` (mood-based), `happy1`, `happy2`, `cheeky`, `quizzical`, `talk`, `orly`, `glare`, `jaded`, `visionary`, `innocent`, `sceptical`, `smirk`, `viking` |
-| `top` | `compliant-tee`, `blazer`, `circles`, `pin-jacket`, `chaos`, `opera-tee`, `cowboy`, `pink-blazer`, `kitten-tee`, `random` |
+| `top` | `compliant-tee`, `blazer`, `circles`, `pin-jacket`, `chaos`, `opera-tee`, `vivaldi-tee`, `cowboy`, `pink-blazer`, `kitten-tee`, `random` |
 | `legs` | `jeans`, `black-jeans`, `formal`, `stripes`, `golden-shorts`, `random` |
 | `props` | space-separated: `guitar`, `mic`, `clicker`, `laptop`, `phone`, `guinness`, `point-left`, `point-right`, `peace-left`, `peace-right`, `lanyard`, `lei`, or `random`. One item per hand; when props clash, the later one wins. |
 | `rant` | `engines`, `dma`, `ai`, `standards`, `random` |
@@ -38,11 +38,16 @@ Any static server works (`python3 -m http.server` too).
 | `glamorous` | anything except `"false"` |
 | `ai` | boolean; he refuses to work |
 | `reduced-motion` | boolean; he stops moving and glares, as with the OS reduced-motion setting |
+| `quiet` | boolean; no sound when he’s pressed or turned over |
+| `background` | `gallery`, `oslo`, `irises`, `stage`, `cma`, `eu`, `random`, or an image URL; he brings his own framed stage, and the element becomes the whole card (give it a height, 520px by default) |
+| `flipped` | boolean; turns him over to show his source code, with Alex Russell pointing at it |
 
-3. Serve it from a web server (localhost is fine). Size him with the `--bruce-size` CSS custom property (240px by default), and leave some room above him for his speech bubble.
+3. Serve it from a web server (localhost is fine). Without a background, size him with the `--bruce-size` CSS custom property (240px by default) and leave some room above him for his speech bubble. With one, give the element a width and height and he fits himself in; `--bruce-floor` (10px by default) leaves space below his feet, say for a caption.
 
-Methods: `rant()`, `say(text, ms, head)`, `reroll()`, `hush()`, `render()`.
-Events (bubbling, composed): `bruce:rant`, `bruce:change`, `bruce:hoedown`, `bruce:offended`, `bruce:render`, `bruce:face` (the face changed; `detail.adj` is one word for it).
+Anything you put inside the element is the fallback: it shows when JavaScript is off (or the module fails to load) and disappears once he upgrades, because his shadow DOM doesn't slot it. The demo uses a photo head with a speech bubble.
+
+Methods: `rant()`, `say(text, ms, head)`, `reroll()`, `hush()`, `flip(force)`, `render()`.
+Events (bubbling, composed): `bruce:rant`, `bruce:change`, `bruce:hoedown`, `bruce:flip`, `bruce:offended`, `bruce:render`, `bruce:face` (the face changed; `detail.adj` is one word for it).
 
 ## Install it
 

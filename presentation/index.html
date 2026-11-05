@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bruce, in his element</title>
+<meta name="theme-color" content="#c81d6e">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slides.css">
+<script type="module" src="../src/bruce-lawson.js"></script>
+<script type="module" src="slides.js"></script>
+</head>
+<body>
+<!--
+  One <section class="slide"> per slide.
+  .step      revealed one at a time (Right, Space, Page Down or a clicker)
+  .photo     data-src="photos/…" shows the photo, or a labelled placeholder until the file exists
+  .notes     speaker notes, shown with N
+  Keys: ← → to move, Home and End, N for notes, F for full screen, B to black out the screen.
+-->
+<main class="deck" id="deck">
+
+  <!-- ───────────── Opening ───────────── -->
+
+  <section class="slide title">
+    <h1>Bruce, <em>in his element</em></h1>
+    <p class="byline">Andreas Bovens · Brucefest 2026</p>
+    <aside class="notes">Hello. Who I am: Bruce’s former manager at Opera, which mostly meant signing off his expenses and trying to keep him out of the press.</aside>
+  </section>
+
+  <!-- ───────────── Through the years: stories ───────────── -->
+
+  <section class="slide section">
+    <p class="kicker">Part one</p>
+    <h2>Through the years</h2>
+    <aside class="notes">Looking back: a few stories and photos of Bruce over the years.</aside>
+  </section>
+
+  <section class="slide story">
+    <div class="pair even">
+      <figure class="photo" data-src="photos/2008-offsite-guitar.webp" data-label="Bruce playing guitar in a log cabin"></figure>
+      <figure class="photo" data-src="photos/2008-offsite-hands.webp" data-label="Bruce doing jazz hands at the dinner table"></figure>
+    </div>
+    <div>
+      <p class="kicker">Opera offsite, December 2008</p>
+      <h2>Good times</h2>
+      <p>A guitar, a log cabin, and jazz hands.</p>
+    </div>
+    <aside class="notes">December 2008, an Opera offsite. Dinner, then a log cabin, then Bruce found a guitar, as he always does. The audience couldn’t leave: we were in a cabin in Norway in December.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo wide" data-src="photos/2009-cowboy.webp" data-label="Bruce on stage at @media as the HTML5 cowboy"></figure>
+    <div>
+      <p class="kicker">@media, London, June 2009</p>
+      <h2>HTML5 cowboy</h2>
+      <p class="step">Remember the outfit. It comes back later.</p>
+    </div>
+    <aside class="notes">@media 2009 in London: Bruce on stage as the HTML5 cowboy, rounding up the new elements. A callback for later: the cowboy top in the web component, and the hoedown.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo wide"><video src="photos/2009-standards-next.mp4" muted loop playsinline controls preload="metadata" aria-label="A video from Standards.Next in London"></video></figure>
+    <div>
+      <p class="kicker">London, the next day</p>
+      <h2>Standards.<wbr>Next</h2>
+      <p>Our own event, the day after @media.</p>
+    </div>
+    <aside class="notes">Standards.Next, which we organised in London in June 2009, the day after @media. The video plays muted; use its controls for sound. TODO: the story.</aside>
+  </section>
+
+  <section class="slide story">
+    <div class="trio">
+      <figure class="photo" data-src="photos/2010-sparkup.webp" data-label="Bruce speaking at SparkUp in Poland"></figure>
+      <figure class="photo" data-src="photos/stage-leather.webp" data-label="Bruce on stage in a leather jacket and an Opera T-shirt"></figure>
+      <figure class="photo" data-src="photos/stage-velocity.webp" data-label="Bruce on stage at O’Reilly Velocity"></figure>
+    </div>
+    <div>
+      <p class="kicker">SparkUp, Velocity, and many more</p>
+      <h2>On stage</h2>
+      <p>Eight and a half years at Opera. More than 150 conference talks.</p>
+    </div>
+    <aside class="notes">Bruce was at Opera for eight and a half years, and in that time he gave more than 150 conference talks. Here are three: SparkUp in Poland in May 2010, with his shadow looming behind him; a leather jacket and an Opera T-shirt; and O’Reilly Velocity, in a suit, with the green mohawk.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo cinema" data-src="photos/2010-sofa.webp" data-label="Bruce with his feet on Andreas’s table, with Vadim, Mike, Zi Bin and David">
+      <div class="labels step">
+        <span style="left: 18%; top: 9%">Firefox</span>
+        <span style="left: 50%; top: 24%">Chrome</span>
+        <span style="left: 61%; top: 38%">Vivaldi</span>
+        <span style="left: 89%; top: 41%">Edge</span>
+      </div>
+    </figure>
+    <div>
+      <p class="kicker">My living room, October 2010</p>
+      <h2>Chilling with Opera chums</h2>
+    </div>
+    <aside class="notes">October 2010, my house. Bruce has his socks on my coffee table, which tells you everything about the management relationship. Left to right: Vadim, now at Mozilla; Mike Taylor, now on Chrome; Bruce, now at Vivaldi; Zi Bin; and David Storey, now on Edge. Back then we all worked on one browser engine, Presto. Now three of the four run on the same engine, and it isn’t ours.</aside>
+  </section>
+
+  <section class="slide story">
+    <div class="pair even three-two">
+      <figure class="photo" data-src="photos/2011-hytte.webp" data-label="The team round a fire in a hytte"></figure>
+      <figure class="photo" data-src="photos/2011-team.webp" data-label="The Opera Developer Relations team in a forest">
+        <div class="labels step">
+          <span class="was" style="left: 32%; top: 19%">Firefox</span>
+          <span class="was" style="left: 41.5%; top: 25%">Firefox</span>
+          <span style="left: 57%; top: 28.5%">Chrome</span>
+          <span style="left: 37.3%; top: 43%">Firefox</span>
+          <span class="on" style="left: 46%; top: 51%">Vivaldi</span>
+          <span class="on" style="left: 60%; top: 45%">Safari</span>
+          <span class="on" style="left: 62.5%; top: 62%">Safari</span>
+        </div>
+      </figure>
+    </div>
+    <div>
+      <p class="kicker">Offsite in Norway, September 2011</p>
+      <h2>With the DevRel Gang</h2>
+      <p>The Opera DevRel team at its biggest.</p>
+    </div>
+    <aside class="notes">September 2011, an offsite in Norway. The Opera Developer Relations team at its largest, and where everyone went next. Chris Mills and I both did a stint at Mozilla. Bruce, pink mohawk, giving someone bunny ears, is the one whose Vivaldi label covers his Opera T-shirt. Then the evening round the fire in a hytte.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo three-two" data-src="photos/2011-office-hoedown.webp" data-label="Bruce on guitar, with a ukulele, in Andreas’s office"></figure>
+    <div>
+      <p class="kicker">My office, September 2011</p>
+      <h2>An impromptu jam session</h2>
+      <p class="step">And then this happened.</p>
+    </div>
+    <aside class="notes">My office, September 2011. Bruce on guitar, a ukulele, and everyone else pretending to work. This is the start of what became the Web Standards Hoedown. Next slide.</aside>
+  </section>
+
+  <section class="slide video">
+    <figure class="photo"><iframe src="https://www.youtube-nocookie.com/embed/4Uir2MGC8g8?enablejsapi=1&amp;rel=0" title="Web Standards Hoedown, on YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></figure>
+    <aside class="notes">The Web Standards Hoedown. Recorded in my office in September 2011. Play a bit of it, then move on before anyone starts line dancing. Its audio is what the &lt;bruce-lawson&gt; hoedown plays later.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo cinema" data-src="photos/2013-mwc.webp" data-label="Bruce in a blazer at Mobile World Congress"></figure>
+    <div>
+      <p class="kicker">Barcelona, February 2013</p>
+      <h2>A rare sight: corporate Bruce</h2>
+      <p>Ready to leverage synergies…</p>
+      <p class="step">In Bruce’s words: you say synergy, I say WINergy.</p>
+    </div>
+    <aside class="notes">Mobile World Congress, the most corporate week in the calendar. Bruce made an effort: a blazer, a shirt with an actual collar, the Opera lanyard. From the neck down, every inch the business development executive. From the neck up, not so much.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo wide" data-src="photos/2013-ipad.webp" data-label="Bruce showing Vadim his iPad, in the Opera office"></figure>
+    <div>
+      <p class="kicker">Opera office, June 2013</p>
+      <h2>Compromising footage</h2>
+      <p>Bruce, proudly showing Vadim his new iPad.</p>
+      <p class="step">He says it was “research”.</p>
+    </div>
+    <aside class="notes">Long before Open Web Advocacy and Brussels, there was a time when Bruce quite liked Apple. Here he is in the Oslo office, showing Vadim his iPad, while Vadim holds a Windows 8 tablet and tries to look interested. A closeted Apple fanboy. Also: four months after Barcelona, the mohawk has gone green.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo wide" data-src="photos/2014-beach.webp" data-label="Bruce, Shwetank, Mathias and Vadim looking at a laptop on a beach in Norway"></figure>
+    <div>
+      <p class="kicker">Norway, June 2014</p>
+      <h2>Debugging on the beach</h2>
+      <p>Absolutely not posed.</p>
+    </div>
+    <aside class="notes">June 2014, a beach in Norway. Bruce, Shwetank, Mathias Bynens and Vadim, gathered round a laptop covered in stickers, urgently debugging something. A completely natural moment that nobody arranged for the camera. The mohawk is green again.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo phone" data-src="photos/2014-appear-in.webp" data-label="A video call on appear.in, in Opera Mobile on Android"></figure>
+    <div>
+      <p class="kicker">July 2014</p>
+      <h2>Testing WebRTC on mobile</h2>
+      <p>An early screenshot of appear.in, now Whereby.</p>
+    </div>
+    <aside class="notes">appear.in, which is now Whereby. TODO: the story behind the call.</aside>
+  </section>
+
+  <section class="slide story">
+    <div class="pair">
+      <figure class="photo" data-src="photos/2019-london.webp" data-label="Andreas and Bruce at breakfast in London"></figure>
+      <figure class="photo" data-src="photos/2019-avocado.webp" data-label="Bruce presenting his avocado toast"></figure>
+    </div>
+    <div>
+      <p class="kicker">London, June 2019</p>
+      <h2>Avocado toast FTW!</h2>
+      <p>Nurturing Bruce’s inner hipster, a few years after we left Opera.</p>
+    </div>
+    <aside class="notes">June 2019. We’d both left Opera by then, but we stayed in touch, and met up for breakfast in London. Avocado toast, flat whites, and Bruce in a paisley shirt, presenting his plate like it’s a product launch. Helping him unleash his inner hipster.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo cinema" data-src="photos/2019-amsterdam.webp" data-label="Simon, Andreas, Mike and Bruce at a Mozilla conference in Amsterdam"></figure>
+    <div>
+      <p class="kicker">Amsterdam, 2019</p>
+      <h2>Mini-Opera reunion</h2>
+      <p>At a Mozilla event in Amsterdam.</p>
+    </div>
+    <aside class="notes">A Mozilla conference in Amsterdam, 2019. Left to right: Simon Pieters, me, Mike Taylor and Bruce. All of us ex-Opera, all wearing Mozilla lanyards. Bruce went for the red, blue, yellow and black shirt of pure chaos, which you’ll see again in a minute as the “chaos” top. The mohawk: still green.</aside>
+  </section>
+
+  <section class="slide story">
+    <figure class="photo wide" data-src="photos/2025-london.webp" data-label="Andreas and Bruce outside a pub in London"></figure>
+    <div>
+      <p class="kicker">London, September 2025</p>
+      <h2>After the schmoozing</h2>
+      <p>Catch-up after a session of government schmoozing.</p>
+    </div>
+    <aside class="notes">September 2025, London, just after one of Bruce’s government schmoozing sessions: a man who once wore a cowboy hat on stage, now briefing officials on browser competition. The mohawk is gone, but the jacket covered in pin badges is very much still there, and it’s in the web component as the “pin-jacket” top.</aside>
+  </section>
+
+  <!-- ───────────── Turning 60: the reveal ───────────── -->
+
+  <section class="slide big">
+    <h2>And now Bruce turns <span class="num">60</span></h2>
+    <aside class="notes">Which got me thinking: what do you give a web standards person who has everything?</aside>
+  </section>
+
+  <section class="slide reveal">
+    <div class="chain">
+      <div class="link"><span class="value">60</span><span class="unit">decimal</span></div>
+      <div class="link step"><span class="arrow">→</span><span class="value">0x3C</span><span class="unit">hexadecimal</span></div>
+      <div class="link step"><span class="arrow">→</span><span class="value glyph">&lt;</span><span class="unit">ASCII</span></div>
+    </div>
+    <aside class="notes">Sixty in hex is 3C. And 0x3C in ASCII is the less-than sign. The start of every HTML element.</aside>
+  </section>
+
+  <section class="slide punch">
+    <p class="step">So I put Bruce</p>
+    <p class="step">in his own element.</p>
+    <aside class="notes">Pause. Let the groan land.</aside>
+  </section>
+
+  <!-- ───────────── Part two: <bruce-lawson> ───────────── -->
+
+  <section class="slide section element">
+    <p class="kicker">Part two</p>
+    <p class="intro">Introducing</p>
+    <pre class="tag">&lt;bruce-lawson&gt;</pre>
+    <aside class="notes">A real custom element. Hyphenated, because custom elements have to be, so they never clash with future HTML.</aside>
+  </section>
+
+  <!-- ───────────── Live demo ───────────── -->
+
+  <section class="slide demo">
+    <iframe src="../?talk" title="The &lt;bruce-lawson&gt; demo page"></iframe>
+    <aside class="notes">The real demo page. Press Bruce to rant, try the Looks, then the hoedown. Page Down (or the clicker) still moves on; the arrow keys belong to the demo while it has focus.</aside>
+  </section>
+
+  <!-- ───────────── Closing ───────────── -->
+
+  <section class="slide big">
+    <h2>A confession</h2>
+    <p class="step">I used Claude Code to make this 😬</p>
+    <aside class="notes">TODO: the AI confession. Watch for Bruce’s face.</aside>
+  </section>
+
+  <section class="slide close">
+    <h2>He’s yours</h2>
+    <p class="url">andreasbovens.github.io/brucefest</p>
+    <figure class="photo qr" data-src="photos/qr.svg" data-label="QR code"></figure>
+    <bruce-lawson head="happy1" top="pink-blazer" legs="golden-shorts" props="guinness peace-left"></bruce-lawson>
+    <aside class="notes">Happy birthday, Bruce.</aside>
+  </section>
+
+</main>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="notes-panel" id="notesPanel" hidden></div>
+<div class="blackout" id="blackout" hidden></div>
+</body>
+</html>

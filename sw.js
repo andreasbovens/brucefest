@@ -1,14 +1,15 @@
 // Service worker for the demo page: caches everything so Bruce works offline (and installs as an app).
 // After changing any file below, bump VERSION so visitors get the new files.
-const VERSION = "bruce-10";
+const VERSION = "bruce-34";
 // On localhost, fetch from the network first so edits show up straight away; the cache is only the offline fallback.
 const DEV = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
 const FILES = [
   "./", "demo.css", "demo.js", "manifest.webmanifest", "src/bruce-lawson.js",
   ...["cheeky", "glare", "happy1", "happy2", "innocent", "jaded", "orly", "quizzical", "sceptical", "smirk", "talk", "viking", "visionary"].map(h => `assets/heads/${h}.webp`),
   ...["gallery", "oslo", "irises", "stage", "cma", "eu"].map(b => `assets/backgrounds/${b}.webp`),
+  "assets/extras/alex.webp",
   "assets/audio/hoedown.mp4",
-  "assets/icons/icon-192.png", "assets/icons/icon-512.png", "assets/icons/icon-maskable-512.png",
+  "assets/icons/icon-192.webp", "assets/icons/icon-512.webp", "assets/icons/icon-maskable-512.webp",
   "assets/icons/apple-touch-icon.png", "assets/icons/favicon-32.png", "assets/icons/favicon-48.png"
 ];
 
@@ -48,7 +49,9 @@ self.addEventListener("fetch", e => {
   if (url.origin !== location.origin) return;
   // our own files: cache first (the page itself by its directory URL), then the network
   e.respondWith((async () => {
-    const key = req.mode === "navigate" ? new URL("./", self.registration.scope).href : req;
+    // only the demo page itself is stored under its directory URL; other pages (the slides) are looked up as they are
+    const root = new URL("./", self.registration.scope);
+    const key = req.mode === "navigate" && [root.pathname, root.pathname + "index.html"].includes(url.pathname) ? root.href : req;
     if (DEV && !req.headers.has("range")) {
       try {
         const res = await fetch(req.url, { cache: "no-cache" });  // revalidate, so the HTTP cache can’t serve stale files

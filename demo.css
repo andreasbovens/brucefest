@@ -144,13 +144,27 @@
     /* The caption stays on the stage. On a phone Bruce takes most of the width, so there's no room beside him: he stands
        on a strip of floor (--bruce-floor) with the caption below his feet, like a museum label. Below 360px wide the caption
        and his speech bubble need more lines, so the floor and the room above his head both grow a little. */
-    .caption { position: absolute; bottom: 12px; left: 12px; right: 44px; margin: 0; max-width: none; text-align: left; font-size: .8rem; line-height: 1.35; padding: .35em .7em; }
-    .stage bruce-lawson { --bruce-floor: calc(122px + max(0px, 360px - 100cqw)); height: calc(62cqw * 2.14 + 6px + var(--bruce-floor) + max(0px, 360px - 100cqw)); }
+    .caption { position: absolute; bottom: 12px; left: 12px; right: 44px; margin: 0; max-width: none; text-align: left; font-size: .75rem; line-height: 1.3; padding: .35em .7em; }
+    /* He's drawn at 46% of the stage width, so the stage stays short enough to show the Looks buttons below it on a phone */
+    .stage bruce-lawson { --bruce-floor: calc(96px + max(0px, 360px - 100cqw)); height: calc(46cqw * 2.14 + 6px + var(--bruce-floor) + max(0px, 360px - 100cqw)); }
+
     /* wider single-column screens have room beside him, as on a laptop */
     @container stage (min-width: 600px) {
       .caption { right: auto; bottom: 16px; left: 14px; max-width: min(26%, 170px); }
       .stage bruce-lawson { --bruce-floor: 10px; height: 600px; }
     }
+  }
+
+  /* Phones: a smaller title, the subtitle on one line, and the five Looks on one row */
+  @media (max-width: 599px) {
+    h1 { font-size: 1.85rem; }
+    .hero { margin-bottom: 12px; }
+    .lede { font-size: min(1rem, 3.75vw); white-space: nowrap; }
+    .controls { padding: 12px; }
+  }
+  @media (min-width: 360px) and (max-width: 599px) {
+    #looks { flex-wrap: nowrap; gap: 5px; }
+    #looks .btn { flex: 1 1 auto; justify-content: center; padding: 7px 6px; font-size: .86rem; }
   }
 
   /* Without JavaScript, the parts of the page that need it step aside (last, so it wins over the rules above) */

@@ -31,7 +31,8 @@
     color-scheme: dark;
   }
   *, *::before, *::after { box-sizing: inherit; }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); background: var(--bg); }
+  /* manipulation: no double-tap zoom when you tap Bruce or a button quickly, but pinch-zoom still works */
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); background: var(--bg); touch-action: manipulation; }
   body {
     margin: 0; background: var(--bg); color: var(--ink);
     font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;

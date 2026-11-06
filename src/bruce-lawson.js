@@ -645,7 +645,7 @@ function headBox(h) {
 }
 
 const STYLE = `
-  :host { display: inline-block; --bruce-size: 240px; width: var(--bruce-size); position: relative; vertical-align: bottom;
+  :host { display: inline-block; --bruce-size: 240px; width: var(--bruce-size); position: relative; vertical-align: bottom; touch-action: manipulation;
     perspective: calc(var(--bruce-size) * 5); font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif; }
   :host([hidden]) { display: none; }
   .wrap { position: relative; width: var(--bruce-size); font: 600 max(12px, calc(var(--bruce-size) * .058))/1.35 "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif; }

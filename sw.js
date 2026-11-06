@@ -1,6 +1,6 @@
 // Service worker for the demo page: caches everything so Bruce works offline (and installs as an app).
 // After changing any file below, bump VERSION so visitors get the new files.
-const VERSION = "bruce-34";
+const VERSION = "bruce-35";
 // On localhost, fetch from the network first so edits show up straight away; the cache is only the offline fallback.
 const DEV = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
 const FILES = [

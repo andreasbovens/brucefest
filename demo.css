@@ -157,6 +157,13 @@
 
   /* Phones: a smaller title, the subtitle on one line, and the five Looks on one row */
   @media (max-width: 599px) {
+    /* The stage fills the screen down to just above the Looks buttons (svh is the height with the browser's toolbars
+       showing), but Bruce is never drawn narrower than 46% or wider than 62% of the stage width */
+    .stage bruce-lawson { height: clamp(calc(46cqw * 2.14 + 6px + var(--bruce-floor) + max(0px, 360px - 100cqw)), calc(100svh - 200px),
+      calc(62cqw * 2.14 + 6px + var(--bruce-floor) + max(0px, 360px - 100cqw))); }
+    /* resizing with a fingertip is fiddly, so phones don't get the grip, and the caption can use the full width */
+    .stage-grip { display: none; }
+    .caption { right: 12px; }
     h1 { font-size: 1.85rem; }
     .hero { margin-bottom: 12px; }
     .lede { font-size: min(1rem, 3.75vw); white-space: nowrap; }
